@@ -41,7 +41,7 @@ David Moriña, Centre Tecnològic de Nutrició i Salut and Albert Navarro, Unive
 }
 
 \seealso{
-\code{\link{rec.ev.sim}}, \code{\link{mult.ev.sim}}, \code{\link{survsim}}, \code{\link{simple.surv.sim}}
+\code{\link{rec.ev.sim}}, \code{\link{mult.ev.sim}}, \code{\link{crisk.sim}}, \code{\link{survsim}}, \code{\link{simple.surv.sim}}
 }
 \examples{
 ### A cohort with 500 subjects, with a maximum follow-up time of 1825 days and

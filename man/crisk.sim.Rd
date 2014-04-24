@@ -1,19 +1,18 @@
 \encoding{utf8} 
-\name{mult.ev.sim}
-\alias{mult.ev.sim}
+\name{crisk.sim}
+\alias{crisk.sim}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Generate a cohort with multiple events
+Generate a cohort in a competing risks context
 }
 \description{
-Simulation of cohorts in a context of multiple event survival analysis including several covariates, individual heterogeneity and periods at risk prior and after the start of follow-up. 
+Simulation of cohorts in a context of competing risks survival analysis including several covariates, individual heterogeneity and periods at risk prior and after the start of follow-up. 
 
-Multiple event data occurs when each subject can have more than one event of entirely different natures (Kelly, 2000). Examples of this type of event are the occurrence of tumours at different sites in the body or multiple sequalae after a surgery.
+Competing risks analysis considers time-to-first-event and the event type, possibly subject to right censoring (Beyersmann et al., 2009)
 
-We can obtain the observation time of the \eqn{k}-th event in the \eqn{i}-th subject, \eqn{y_ik}, in the same manner that we can simulate \eqn{k} simple independent survival data. Notice that, in multiple-type events, \eqn{T_{ik}} and \eqn{C_{i}} are mutually independent and, furthermore, the failure in each event is independent of the others (within each subject all \eqn{y_ik} are independents for all \eqn{k}).
 }
 \usage{
-mult.ev.sim(n, foltime, dist.ev, anc.ev, beta0.ev, dist.cens="weibull", 
+crisk.sim(n, foltime, dist.ev, anc.ev, beta0.ev, dist.cens="weibull", 
 anc.cens, beta0.cens, z=NA, beta=NA, x=NA, nsit)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -62,16 +61,16 @@ In order to get the function to work properly, the length of the vectors contain
 \value{
 An object of class \code{mult.ev.data.sim}. It is a data frame containing the events suffered by the corresponding subjects. The columns of this data frame are detailed below
 \item{nid }{an integer number that identifies the subject.}
-\item{ev.num }{number of the event corresponding to the follow-up time of the individual.}
+\item{cause }{cause of the event corresponding to the follow-up time of the individual.}
 \item{time }{time until the corresponding event happens (or time to subject drop-out).}
 \item{status }{logical value indicating if the corresponding event has been suffered or not.}
 \item{start }{time at which the follow-up time begins for each event.}
 \item{stop }{time at which the follow-up time ends for each event.}
-\item{z}{Individual heterogeneity generated according to the specified distribution.}
-\item{x}{value of each covariate randomly generated for each subject in the cohort.}
+\item{z }{Individual heterogeneity generated according to the specified distribution.}
+\item{x }{value of each covariate randomly generated for each subject in the cohort.}
 }
 \references{
-Kelly PJ, Lim LL. Survival analysis for recurrent event data: an application to childhood infectious diseases. Stat Med 2000 Jan 15;\bold{19}(1):13-33. 
+Beyersmann J, Latouche A, Buchholz A, Schumacher M. Simulating competing risks data in survival analysis. Stat Med 2009 Jan 5;\bold{28}(1):956-971. 
 
 }
 
@@ -80,22 +79,21 @@ David Moriña, Centre Tecnològic de Nutrició i Salut and Albert Navarro, Unive
 }
 
 \seealso{
-\code{\link{survsim-package}}, \code{\link{accum}}, \code{\link{rec.ev.sim}}, \code{\link{crisk.sim}}, \code{\link{simple.surv.sim}}
+\code{\link{survsim-package}}, \code{\link{accum}}, \code{\link{rec.ev.sim}}, \code{\link{mult.ev.sim}}, \code{\link{simple.surv.sim}}
 }
 \examples{
-### A cohort with 1000 subjects, with a maximum follow-up time of 3600 days and two 
-### covariates, following a Bernoulli and uniform distribution respectively, and a 
-### corresponding beta of -0.4, -0.5, -0.6 and -0.7 for each event for the first 
-### covariate and a corresponding beta of 0, 0, 0 and 1 for each event for the 
+### A cohort with 1000 subjects, with a maximum follow-up time of 100 days and two 
+### covariates, following Bernoulli distributions, and a corresponding beta of 
+### 0.1698695 and 0.0007010932 for each event for the first covariate and a 
+### corresponding beta of 0.3735146 and 0.5591244 for each event for the 
 ### second covariate. Notice that the time to censorship is assumed to follow a 
-### Weibull distribution, as no other distribution is stated.
+### log-normal distribution.
 
-sim.data <- mult.ev.sim(n=1000, foltime=3600, dist.ev=c('llogistic','weibull', 
-'weibull','weibull'),anc.ev=c(0.69978200185280, 0.79691659193027, 
-0.82218416457321, 0.85817155198598),beta0.ev=c(5.84298525742252, 5.94362650803287,
-5.78182528904637, 5.46865223339755),,anc.cens=1.17783687569519,
-beta0.cens=7.39773677281100,z=c("unif", 0.8,1.2), beta=list(c(-0.4,-0.5,-0.6,-0.7),
-c(0,0,0,1)), x=list(c("bern", 0.5), c("unif", 0.7, 1.3)), nsit=4)
+sim.data <- crisk.sim(n=1000, foltime=100, dist.ev=c("lnorm","lnorm"),
+anc.ev=c(1.479687, 0.5268302),beta0.ev=c(3.80342, 2.535374),dist.cens="lnorm",
+anc.cens=1.242733,beta0.cens=5.421748,z=c("unif", 0.8,1.2), 
+beta=list(c(0.1698695,0.0007010932),c(0.3735146,0.5591244)), 
+x=list(c("bern", 0.381), c("bern", 0.564)), nsit=2)
 
 summary(sim.data)
 }
@@ -103,6 +101,6 @@ summary(sim.data)
 % R documentation directory.
 \keyword{ survsim }
 \keyword{ individual }
-\keyword{ multiple }
+\keyword{ competing risks }
 \keyword{ survival }
 \keyword{ simulation }

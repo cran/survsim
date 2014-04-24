@@ -4,7 +4,7 @@ function(n, foltime, dist.ev, anc.ev, beta0.ev, dist.cens="weibull", anc.cens, b
   {
     # Arguments check
     if (length(anc.ev) != length(beta0.ev)) stop("Wrong number of parameters")
-    if (length(anc.cens) != length(beta0.cens) || length(anc.cens) != 1) stop("Wrong number of parameters")
+    if (length(anc.cens) != length(beta0.cens) && length(anc.cens) != 1) stop("Wrong number of parameters")
     if (length(anc.ev) != length(dist.ev)) stop("Wrong number of parameters")
     if (!is.na(z) && length(z) != 3 && z[1] != "exp") stop("Wrong numbers of elements in z")
     if (!is.na(z) && length(z) != 2 && z[1] == "exp") stop("Wrong numbers of elements in z")

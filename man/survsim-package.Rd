@@ -44,12 +44,12 @@ Therefore, \eqn{t_0} represents the initial point of the episode, \eqn{y_i} the 
 \tabular{ll}{
 Package: \tab survsim\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2012-10-11\cr
+Version: \tab 1.1\cr
+Date: \tab 2014-02-11\cr
 License: \tab GPL version 2 or newer\cr
 LazyLoad: \tab yes\cr
 }
-The package provide a tool for simulation of cohorts in a simple single-event context through the function \code{\link{simple.surv.sim}}, in a recurrent event context with the function \code{\link{rec.ev.sim}} and in a multiple event context with the function \code{\link{mult.ev.sim}}, and it also allows the user to generate aggregated data from the simulated cohort, by means of the function \code{\link{accum}}.
+The package provide a tool for simulation of cohorts in a simple single-event context through the function \code{\link{simple.surv.sim}}, in a recurrent event context with the function \code{\link{rec.ev.sim}}, in a multiple event context with the function \code{\link{mult.ev.sim}} and in a competing risks context with the function \code{\link{crisk.sim}}, and it also allows the user to generate aggregated data from the simulated cohort, by means of the function \code{\link{accum}}.
 }
 \author{
 David Moriña, Centre Tecnològic de Nutrició i Salut and Albert Navarro, Universitat Autònoma de Barcelona
@@ -69,6 +69,9 @@ Navarro A, Moriña D, Reis R, Nedel FB, Martin M, Alvarado S. Hazard functions t
 Bender R, Augustin T, Blettner M. Generating survival times to simulate Cox proportional hazards models. Stat Med 2005 Jun 15;\bold{24}(11):1713-1723.
 
 Metcalfe C, Thompson SG. The importance of varying the event generation process in simulation studies of statistical methods for recurrent events. Stat Med 2006 Jan 15;\bold{25}(1):165-179.
+
+Beyersmann J, Latouche A, Buchholz A, Schumacher M. Simulating competing risks data in survival analysis. Stat Med 2009 Jan 5;\bold{28}(1):956-971. 
+
 }
 \keyword{ survsim }
 

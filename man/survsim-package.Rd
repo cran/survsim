@@ -44,33 +44,36 @@ Therefore, \eqn{t_0} represents the initial point of the episode, \eqn{y_i} the 
 \tabular{ll}{
 Package: \tab survsim\cr
 Type: \tab Package\cr
-Version: \tab 1.1\cr
-Date: \tab 2014-02-11\cr
+Version: \tab 1.1.1\cr
+Date: \tab 2014-07-21\cr
 License: \tab GPL version 2 or newer\cr
 LazyLoad: \tab yes\cr
 }
 The package provide a tool for simulation of cohorts in a simple single-event context through the function \code{\link{simple.surv.sim}}, in a recurrent event context with the function \code{\link{rec.ev.sim}}, in a multiple event context with the function \code{\link{mult.ev.sim}} and in a competing risks context with the function \code{\link{crisk.sim}}, and it also allows the user to generate aggregated data from the simulated cohort, by means of the function \code{\link{accum}}.
 }
 \author{
-David Moriña, Centre Tecnològic de Nutrició i Salut and Albert Navarro, Universitat Autònoma de Barcelona
+David Moriña, Centre for Research in Environmental Epidemiology (CREAL) and Albert Navarro, Universitat Autònoma de Barcelona
 
-Maintainer: David Moriña <david.morina@ctns.cat>
+Maintainer: David Moriña <david.morina@uab.cat>
 }
 
 \references{
-Burton A, Altman DG, Royston P, Holder RL. The design of simulation studies in medical statistics. Stat Med 2006 Dec 30;\bold{25}(24):4279-4292.
 
-Kelly PJ, Lim LL. Survival analysis for recurrent event data: an application to childhood infectious diseases. Stat Med 2000 Jan 15;\bold{19}(1):13-33. 
-
-Reis RJ, Utzet M, La Rocca PF, Nedel FB, Martin M, Navarro A. Previous sick leaves as predictor of subsequent ones. Int Arch Occup Environ Health 2011 Jun;\bold{84}(5):491-499.
-
-Navarro A, Moriña D, Reis R, Nedel FB, Martin M, Alvarado S. Hazard functions to describe patterns of new and recurrent sick leave episodes for different diagnoses. Scand J Work Environ Health 2012 Jan 27.
+Kelly PJ, Lim LL. Survival analysis for recurrent event data: an application to childhood infectious diseases. Stat Med 2000 Jan 15;\bold{19}(1):13-33.
 
 Bender R, Augustin T, Blettner M. Generating survival times to simulate Cox proportional hazards models. Stat Med 2005 Jun 15;\bold{24}(11):1713-1723.
 
 Metcalfe C, Thompson SG. The importance of varying the event generation process in simulation studies of statistical methods for recurrent events. Stat Med 2006 Jan 15;\bold{25}(1):165-179.
 
+Burton A, Altman DG, Royston P, Holder RL. The design of simulation studies in medical statistics. Stat Med 2006 Dec 30;\bold{25}(24):4279-4292.
+
 Beyersmann J, Latouche A, Buchholz A, Schumacher M. Simulating competing risks data in survival analysis. Stat Med 2009 Jan 5;\bold{28}(1):956-971. 
+
+Reis RJ, Utzet M, La Rocca PF, Nedel FB, Martin M, Navarro A. Previous sick leaves as predictor of subsequent ones. Int Arch Occup Environ Health 2011 Jun;\bold{84}(5):491-499.
+
+Navarro A, Moriña D, Reis R, Nedel FB, Martin M, Alvarado S. Hazard functions to describe patterns of new and recurrent sick leave episodes for different diagnoses. Scand J Work Environ Health 2012 Jan 27.
+
+Moriña D, Navarro A. The R package survsim for the simulation of simple and complex survival data. Journal of Statistical Software 2014 Jul; \bold{59}(2):1-21.
 
 }
 \keyword{ survsim }

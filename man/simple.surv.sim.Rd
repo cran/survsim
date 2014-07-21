@@ -62,10 +62,14 @@ An object of class \code{mult.ev.data.sim}. It is a data frame containing the ev
 \references{
 Kelly PJ, Lim LL. Survival analysis for recurrent event data: an application to childhood infectious diseases. Stat Med 2000 Jan 15;\bold{19}(1):13-33. 
 
+Bender R, Augustin T, Blettner M. Generating survival times to simulate Cox proportional hazards models. Stat Med 2005 Jun 15;\bold{24}(11):1713-1723.
+
+Moriña D, Navarro A. The R package survsim for the simulation of simple and complex survival data. Journal of Statistical Software 2014 Jul; \bold{59}(2):1-21.
+
 }
 
 \author{
-David Moriña, Centre Tecnològic de Nutrició i Salut and Albert Navarro, Universitat Autònoma de Barcelona
+David Moriña, Centre for Research in Environmental Epidemiology (CREAL) and Albert Navarro, Universitat Autònoma de Barcelona
 }
 
 \seealso{

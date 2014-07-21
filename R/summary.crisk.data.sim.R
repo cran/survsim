@@ -14,13 +14,11 @@ function(object, ...)
        cause[i]       <- i
        sub.risk[i]    <- attr(object,"n")
        num.events[i]  <- as.integer(sum(!is.na(object$status[object$cause==i])))
-       foltime[i]     <- sum(object$time[object$cause==i & !is.na(object$cause)])
-       med.foltime[i] <- median(object$time[object$cause==i & !is.na(object$cause)])
+       foltime[i]     <- sum(object$time)
        mean.ep.sub[i] <- sum(object$status[object$cause==i & !is.na(object$cause)])/dim(object)[1]
        dens.incid[i]  <- num.events[i]/foltime[i]
     }
-    ans <- data.frame(cause, sub.risk, num.events, foltime, med.foltime,
-                      mean.ep.sub, dens.incid)
+    ans <- data.frame(cause, sub.risk, num.events, mean.ep.sub, dens.incid)
     class(ans)  <- "summary.crisk.data.sim"
     return(ans)
   }

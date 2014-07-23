@@ -1,4 +1,4 @@
-d789eec8f86d164180b9e19115768f44 *DESCRIPTION
+9aefb4006305450aed2939c4bca8dadd *DESCRIPTION
 476968d945af6aa42fc123490d455931 *NAMESPACE
 318d56ef16b1fd2eda72c3cc59ef8f45 *R/accum.R
 e3207c44f1068adfa2995da4b4882d82 *R/crisk.ncens.sim.R
@@ -6,9 +6,9 @@ e3207c44f1068adfa2995da4b4882d82 *R/crisk.ncens.sim.R
 5c1a39221c290f66b83ad989f1bdf5d7 *R/mult.ev.ncens.sim.R
 9a5e8e3aa21974abd5b3e65a7c2185eb *R/mult.ev.sim.R
 54d218b05498364434cbb7b5748f095f *R/print.summary.crisk.data.sim.R
-e9b11aea8ba6733ac9922ef4440efa96 *R/print.summary.mult.ev.data.sim.R
-2b33995487e94aa45a790e416f2a6a6e *R/print.summary.rec.ev.data.sim.R
-b9b43f63150432381dc817018e918a89 *R/print.summary.simple.surv.sim.R
+c387cf674f60c0397187b6b958d27bc7 *R/print.summary.mult.ev.data.sim.R
+63402beed40a0a97c3ba15f97a6c2de8 *R/print.summary.rec.ev.data.sim.R
+92cf123e6fad239fcf102dd3b5db3d26 *R/print.summary.simple.surv.sim.R
 6a465f6ed177d23e172b720e618ee935 *R/rec.ev.cens.sim.R
 2514cab5fb6b699b3609b58ef40b3be5 *R/rec.ev.ncens.sim.R
 744bc040b8641091a6014453bebb960b *R/rec.ev.sim.R
@@ -16,9 +16,9 @@ c93f1744f04b86e205d8da2b7c371cc2 *R/rtpois.R
 038b5c097ebcd3cd713b6b023abee446 *R/simple.ev.sim.R
 8f9c51c0ce3cf2c63ef2a77acf30de9e *R/simple.surv.sim.R
 14b912c30cfedf688a3fe6bd7fb0cdc2 *R/summary.crisk.data.sim.R
-4246d3226d717f0f404b6ed16c0560bc *R/summary.mult.ev.data.sim.R
-40c2bfd40fff3827afe2f0cad997507f *R/summary.rec.ev.data.sim.R
-ac4044ee64959435aeebb5c25a030a1e *R/summary.simple.surv.sim.R
+781eed0faa40f86056ac26167f73b6ff *R/summary.mult.ev.data.sim.R
+d6fd04f3e2898a671d980ad26fd87cba *R/summary.rec.ev.data.sim.R
+70e4eac3c8c48909be26097adf4c59c4 *R/summary.simple.surv.sim.R
 5163e10138c114860833fbe20ac24f2f *R/survsim-internal.R
 d41d8cd98f00b204e9800998ecf8427e *README.md
 ace5b39d121d2f7b1c5feb019b12583b *inst/CITATION

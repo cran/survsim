@@ -2,8 +2,8 @@ print.summary.simple.surv.sim <-
 function(x, ...)
   {
     attr(x,"class") <- "data.frame"
-    nn <- c("Number of subjects at risk", "Number of events", "Total time of follow-up",
-            "Time of follow-up (median)", "Mean episodes per subject", "Density of incidence")
+    nn <- c("Number of subjects at risk", "Number of events", "Proportion of subjects with event", 
+            "Total time of follow-up", "Time of follow-up (median)", "Density of incidence")
     for (i in 1:length(x))
     {
       cat("\n")

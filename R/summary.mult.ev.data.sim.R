@@ -16,12 +16,10 @@ function(object, ...)
        num.events[i]  <- as.integer(sum(object$status[object$ev.num==i]))
        foltime[i]     <- sum(object$time[object$ev.num==i])
        med.foltime[i] <- median(object$time[object$ev.num==i]) 
-       mean.ep.sub[i] <- sum(object$status[object$ev.num==i])/dim(object)[1]
        dens.incid[i]  <- num.events[i]/foltime[i]
     }
     ans <- data.frame(ev.num, sub.risk, num.events, 
-                 foltime, med.foltime,
-                 mean.ep.sub, dens.incid)
+                 foltime, med.foltime, dens.incid)
     class(ans)  <- "summary.mult.ev.data.sim"
     return(ans)
   }

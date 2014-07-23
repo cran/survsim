@@ -15,9 +15,9 @@ function(object, ...)
     mean.ep.sub[1] <- sum(object$status)/dim(object)[1]
     dens.incid[1]  <- num.events[1]/foltime[1]
     
-    ans <- data.frame(sub.risk, num.events, 
+    ans <- data.frame(sub.risk, num.events, mean.ep.sub, 
                       foltime, med.foltime,
-                      mean.ep.sub, dens.incid)
+                      dens.incid)
     class(ans)  <- "summary.simple.surv.sim"
     return(ans)
   }

@@ -1,5 +1,5 @@
 crisk.ncens.sim <- 
-  function (foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NA, beta=0, eff=0, 
+  function (foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NULL, beta=0, eff=0, 
             dist.ev, dist.cens, i, nsit) 
 {
   nid    <- NA
@@ -7,7 +7,6 @@ crisk.ncens.sim <-
   stop   <- NA
   obs    <- NA
   it     <- NA
-  az1    <- NA
   time   <- NA
   pro    <- vector()
   cause  <- NA
@@ -17,19 +16,37 @@ crisk.ncens.sim <-
   k.ev   <- 1
   sum    <- 0
   cshaz  <- list()
+  az1    <- vector()
   
-  if (!is.na(z[1]) && z[1] == "gamma") 
-    az1 <- rgamma(1, as.numeric(z[2]), as.numeric(z[3]))
-  if (!is.na(z[1]) && z[1] == "exp") 
-    az1 <- rgamma(1, 1, as.numeric(z[2]))
-  if (!is.na(z[1]) && z[1] == "weibull") 
-    az1 <- rweibull(1, as.numeric(z[2]), as.numeric(z[3]))
-  if (!is.na(z[1]) && z[1] == "unif") 
-    az1 <- runif(1, as.numeric(z[2]), as.numeric(z[3]))
-  if (!is.na(z[1]) && z[1] == "invgauss") 
-    az1 <- rinvgauss(1, as.numeric(z[2]), as.numeric(z[3]))
-  if (is.na(z[1])) 
-    az1 <- 1
+  if (is.null(z))
+  {
+    for (i in 1:nsit)
+    {
+      az1[i] <- 1
+    }
+  }else{
+    for (i in 1:length(z))
+    {
+      if (!is.na(z[[i]][1]) && z[[i]][1] == "gamma") 
+        az1[i] <- rgamma(1, as.numeric(z[[i]][2]), as.numeric(z[[i]][3]))
+      if (!is.na(z[[i]][1]) && z[[i]][1] == "exp") 
+        az1[i] <- rgamma(1, 1, as.numeric(z[[i]][2]))
+      if (!is.na(z[[i]][1]) && z[[i]][1] == "weibull") 
+        az1[i] <- rweibull(1, as.numeric(z[[i]][2]), as.numeric(z[[i]][3]))
+      if (!is.na(z[[i]][1]) && z[[i]][1] == "unif") 
+        az1[i] <- runif(1, as.numeric(z[[i]][2]), as.numeric(z[[i]][3]))
+      if (!is.na(z[[i]][1]) && z[[i]][1] == "invgauss") 
+        az1[i] <- rinvgauss(1, as.numeric(z[[i]][2]), as.numeric(z[[i]][3]))
+    }
+    if (length(z) == 1)
+    {
+      for (i in 2:nsit)
+      {
+        az1[i] <- az1[1]
+      }
+    }
+  }
+  
   if (dist.cens == "llogistic") {
     tc <- exp(rlogis(1, beta0.cens, anc.cens))
   }
@@ -43,6 +60,11 @@ crisk.ncens.sim <-
       if (dist.cens == "lnorm") {
         tc <- rlnorm(1, beta0.cens, anc.cens)
       }
+    else {
+      if (dist.cens== "unif") {
+        tc <- runif(1, beta0.cens, anc.cens)
+      }
+    }
     }
   }
   suma <- 0
@@ -51,17 +73,17 @@ crisk.ncens.sim <-
   for (k in 1:nsit)
   {
     if (dist.ev[k] == "llogistic") {
-    cshaz[[k]] <- function(t) {return(az1*exp(dlogis(t, beta0.ev[k] + suma, anc.ev[k])))}
+    cshaz[[k]] <- function(t) {return(az1[k]*exp(dlogis(t, beta0.ev[k] + suma, anc.ev[k])))}
     }
     else {
       if (dist.ev[k] == "weibull") {
         a.ev <- anc.ev
         b.ev <- (1/exp(-anc.ev * (beta0.ev+suma)))^(1/anc.ev)
-        cshaz[[k]] <- function(t) {return(az1*dweibull(t, a.ev[k], b.ev[k]))}
+        cshaz[[k]] <- function(t) {return(az1[k]*dweibull(t, a.ev[k], b.ev[k]))}
       }
       else {
         if (dist.ev[k] == "lnorm") {
-          cshaz[[k]] <- function(t) {return(az1*dlnorm(t, beta0.ev[k]+suma, anc.ev[k]))}
+          cshaz[[k]] <- function(t) {return(az1[k]*dlnorm(t, beta0.ev[k]+suma, anc.ev[k]))}
         }#if
       }#if
     }#if
@@ -101,6 +123,7 @@ crisk.ncens.sim <-
   {
     if (cause1[k] == 1) cause <- k
   }
+  az <- az1[k]
   nid <- i
   start <- 0
   it <- 0
@@ -121,7 +144,7 @@ crisk.ncens.sim <-
     }
     
   sim.ind <- data.frame(nid = nid, cause = cause, time = time, status = it, 
-                        start = start, stop = stop, z = az1[1])
+                        start = start, stop = stop, z = az)
   for (k in 1:length(eff)) {
     sim.ind <- cbind(sim.ind, x = eff[k])
   }

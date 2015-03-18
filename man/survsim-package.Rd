@@ -44,8 +44,8 @@ Therefore, \eqn{t_0} represents the initial point of the episode, \eqn{y_i} the 
 \tabular{ll}{
 Package: \tab survsim\cr
 Type: \tab Package\cr
-Version: \tab 1.1.1\cr
-Date: \tab 2014-07-21\cr
+Version: \tab 1.1.3\cr
+Date: \tab 2015-03-18\cr
 License: \tab GPL version 2 or newer\cr
 LazyLoad: \tab yes\cr
 }
@@ -73,7 +73,7 @@ Reis RJ, Utzet M, La Rocca PF, Nedel FB, Martin M, Navarro A. Previous sick leav
 
 Navarro A, Moriña D, Reis R, Nedel FB, Martin M, Alvarado S. Hazard functions to describe patterns of new and recurrent sick leave episodes for different diagnoses. Scand J Work Environ Health 2012 Jan 27.
 
-Moriña D, Navarro A. The R package survsim for the simulation of simple and complex survival data. Journal of Statistical Software 2014 Jul; \bold{59}(2):1-21.
+Moriña D, Navarro A. The R package survsim for the simulation of simple and complex survival data. Journal of Statistical Software 2014 Jul; \bold{59}(2):1-20.
 
 }
 \keyword{ survsim }

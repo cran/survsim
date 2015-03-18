@@ -1,5 +1,5 @@
 rec.ev.cens.sim <-
-function(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NA, beta=0, eff=0,
+function(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NULL, beta=0, eff=0,
          lambda=NA, dist.ev, dist.cens, max.ep=Inf, un.cens, i, max.time)
 {
   nid          <- vector()
@@ -14,7 +14,7 @@ function(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NA, beta=0, eff=0,
   it           <- vector()
   tc           <- vector()
   tb           <- vector()
-  az1          <- NA
+  az1          <- vector()
   long         <- vector()
   time         <- vector()
   time2        <- vector()
@@ -31,20 +31,34 @@ function(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NA, beta=0, eff=0,
   sum2     <- 0
   start[j] <- 0
   stop2[j] <- 0
-  if (!is.na(z[1]) && z[1] == "gamma")    az1 <- rgamma(1, as.numeric(z[2]), as.numeric(z[3]))
-  if (!is.na(z[1]) && z[1] == "exp")      az1 <- rgamma(1, 1, as.numeric(z[2]))
-  if (!is.na(z[1]) && z[1] == "weibull")  az1 <- rweibull(1, as.numeric(z[2]), as.numeric(z[3]))
-  if (!is.na(z[1]) && z[1] == "unif")     az1 <- runif(1, as.numeric(z[2]), as.numeric(z[3]))
-  if (!is.na(z[1]) && z[1] == "invgauss") az1 <- rinvgauss(1, as.numeric(z[2]), as.numeric(z[3]))
-  if (is.na(z[1]))                        az1 <- 1
+  
   while ((it[j-1] == 1 || j == 1) && (stop2[j-1] < foltime || j == 1) && j <= max.ep)
   {  
     k.ev       <- j
     k.cens     <- j
+    k.z        <- j
     episode[j] <- j
     nid[j]     <- i
     if (k.ev > length(beta0.ev))     k.ev   <- length(beta0.ev)
     if (k.cens > length(beta0.cens)) k.cens <- length(beta0.cens)
+    if (!is.null(z) & j > length(z)) k.z <- length(z)
+    
+    if (is.null(z))
+    {
+      az1[j] <- 1
+    }else{
+      if (!is.na(z[[k.z]][1]) && z[[k.z]][1] == "gamma") 
+          az1[j] <- rgamma(1, as.numeric(z[[k.z]][2]), as.numeric(z[[k.z]][3]))
+      if (!is.na(z[[k.z]][1]) && z[[k.z]][1] == "exp") 
+          az1[j] <- rgamma(1, 1, as.numeric(z[[k.z]][2]))
+      if (!is.na(z[[k.z]][1]) && z[[k.z]][1] == "weibull") 
+          az1[j] <- rweibull(1, as.numeric(z[[k.z]][2]), as.numeric(z[[k.z]][3]))
+      if (!is.na(z[[k.z]][1]) && z[[k.z]][1] == "unif") 
+          az1[j] <- runif(1, as.numeric(z[[k.z]][2]), as.numeric(z[[k.z]][3]))
+      if (!is.na(z[[k.z]][1]) && z[[k.z]][1] == "invgauss") 
+          az1[j] <- rinvgauss(1, as.numeric(z[[k.z]][2]), as.numeric(z[[k.z]][3]))
+    }
+    
     if (dist.cens[k.cens] == 'llogistic')
     {
       tc[j] <- exp(rlogis(1, beta0.cens[k.cens], anc.cens[k.cens]))
@@ -58,24 +72,28 @@ function(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NA, beta=0, eff=0,
         if (dist.cens[k.cens] == 'lnorm')
         {
           tc[j]  <- rlnorm(1, beta0.cens[k.cens], anc.cens[k.cens])
-        } #if
-      } #if
-    } #if
+        }else{
+          if (dist.cens[k.cens] == 'unif') {
+            tc[j] <- runif(1, beta0.cens[k.cens], anc.cens[k.cens])
+          }
+      }
+    }
+    }
     suma <- 0
     if (!is.na(beta[1])) suma <- sum(sapply(beta, "[", k.ev) * eff)
     if (dist.ev[k.ev] == 'llogistic')
     {
-      tb[j] <- az1*exp(rlogis(1, beta0.ev[k.ev] + suma, anc.ev[k.ev]))
+      tb[j] <- az1[k.z]*exp(rlogis(1, beta0.ev[k.ev] + suma, anc.ev[k.ev]))
     }else{
       if (dist.ev[k.ev] == 'weibull')
       {
         a.ev   <- anc.ev[k.ev]
         b.ev   <- (1/exp(-anc.ev[k.ev]*(beta0.ev[k.ev] + suma)))^(1/anc.ev[k.ev])
-        tb[j]  <- az1*rweibull(1, a.ev, b.ev)
+        tb[j]  <- az1[k.z]*rweibull(1, a.ev, b.ev)
       }else{
         if (dist.ev[k.ev] == 'lnorm')
         {
-          tb[j]  <- az1*rlnorm(1, beta0.ev[k.ev] + suma, anc.ev[k.ev])
+          tb[j]  <- az1[k.z]*rlnorm(1, beta0.ev[k.ev] + suma, anc.ev[k.ev])
         } #if
       } #if
     } #if  
@@ -135,6 +153,7 @@ function(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NA, beta=0, eff=0,
     j      <- j + 1
     k.ev   <- k.ev + 1
     k.cens <- k.cens + 1
+    k.z    <- k.z + 1
   } #while
   
   sim.ind <- data.frame(nid=nid, real.episode=episode, obs.episode=obs, time=time, 

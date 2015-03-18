@@ -5,8 +5,6 @@ function(object, ...)
     sub.risk    <- vector()
     num.events  <- vector()
     foltime     <- vector()
-    med.foltime <- vector()
-    mean.ep.sub <- vector()
     dens.incid  <- vector()
     cause       <- vector()
     for (i in 1:attr(object,"nsit"))
@@ -15,10 +13,9 @@ function(object, ...)
        sub.risk[i]    <- attr(object,"n")
        num.events[i]  <- as.integer(sum(!is.na(object$status[object$cause==i])))
        foltime[i]     <- sum(object$time)
-       mean.ep.sub[i] <- sum(object$status[object$cause==i & !is.na(object$cause)])/dim(object)[1]
        dens.incid[i]  <- num.events[i]/foltime[i]
     }
-    ans <- data.frame(cause, sub.risk, num.events, mean.ep.sub, dens.incid)
+    ans <- data.frame(cause, sub.risk, num.events, dens.incid)
     class(ans)  <- "summary.crisk.data.sim"
     return(ans)
   }

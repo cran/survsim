@@ -1,5 +1,5 @@
 simple.ev.sim <-
-function(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NA, beta=0, eff=0, 
+function(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NULL, beta=0, eff=0, 
            dist.ev, dist.cens, i)
   {
     nid          <- vector()
@@ -18,29 +18,34 @@ function(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NA, beta=0, eff=0,
     obs[1]   <- 1
     k.ev     <- 1
     sum      <- 0
-    if (!is.na(z[1]) && z[1] == "gamma")    az1 <- rgamma(1, as.numeric(z[2]), as.numeric(z[3]))
-    if (!is.na(z[1]) && z[1] == "exp")      az1 <- rgamma(1, 1, as.numeric(z[2]))
-    if (!is.na(z[1]) && z[1] == "weibull")  az1 <- rweibull(1, as.numeric(z[2]), as.numeric(z[3]))
-    if (!is.na(z[1]) && z[1] == "unif")     az1 <- runif(1, as.numeric(z[2]), as.numeric(z[3]))
-    if (!is.na(z[1]) && z[1] == "invgauss") az1 <- rinvgauss(1, as.numeric(z[2]), as.numeric(z[3]))
-    if (is.na(z[1]))                        az1 <- 1
+    if (!is.null(z) && z[[1]][1] == "gamma")    az1 <- rgamma(1, as.numeric(z[[1]][2]), as.numeric(z[[1]][3]))
+    if (!is.null(z) && z[[1]][1] == "exp")      az1 <- rgamma(1, 1, as.numeric(z[[1]][2]))
+    if (!is.null(z) && z[[1]][1] == "weibull")  az1 <- rweibull(1, as.numeric(z[[1]][2]), as.numeric(z[[1]][3]))
+    if (!is.null(z) && z[[1]][1] == "unif")     az1 <- runif(1, as.numeric(z[[1]][2]), as.numeric(z[[1]][3]))
+    if (!is.null(z) && z[[1]][1] == "invgauss") az1 <- rinvgauss(1, as.numeric(z[[1]][2]), as.numeric(z[[1]][3]))
+    if (is.null(z))                             az1 <- 1
+
     # Time to censorship
-    if (dist.cens == 'llogistic')
-    {
+    if (dist.cens == "llogistic") {
       tc <- exp(rlogis(1, beta0.cens, anc.cens))
-    }else{
-      if (dist.cens == 'weibull')
-      {
-        a.cens   <- anc.cens
-        b.cens   <- (1/exp(-anc.cens*(beta0.cens)))^(1/anc.cens)
-        tc    <- rweibull(1, a.cens, b.cens)
-      }else{
-        if (dist.cens == 'lnorm')
-        {
-          tc  <- rlnorm(1, beta0.cens, anc.cens)
-        } #if
-      } #if
-    } #if
+    }
+    else {
+      if (dist.cens == "weibull") {
+        a.cens <- anc.cens
+        b.cens <- (1/exp(-anc.cens * (beta0.cens)))^(1/anc.cens)
+        tc <- rweibull(1, a.cens, b.cens)
+      }
+      else {
+        if (dist.cens == "lnorm") {
+          tc <- rlnorm(1, beta0.cens, anc.cens)
+        }
+        else {
+          if (dist.cens== "unif") {
+            tc <- runif(1, beta0.cens, anc.cens)
+          }
+        }
+      }
+    }
     start[1]   <- 0
     k.ev       <- 1
     nid[1]     <- i

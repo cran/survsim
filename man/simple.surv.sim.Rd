@@ -10,7 +10,7 @@ Simulation of cohorts in a context of standard survival analysis including sever
 }
 \usage{
 simple.surv.sim(n, foltime, dist.ev, anc.ev, beta0.ev, dist.cens="weibull", 
-anc.cens, beta0.cens, z=NA, beta=NA, x=NA)
+anc.cens, beta0.cens, z=NULL, beta=NA, x=NA)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -30,16 +30,16 @@ ancillary parameter for the time to event distribution.
 \eqn{\beta_0} parameter for the time to event distribution.
 }
   \item{dist.cens}{
-string indicating the time to censoring distribution, with possible values \code{weibull} for the Weibull distribution, \code{lnorm} for the log-normal distribution and \code{llogistic} for the log-logistic distribution. If no distribution is introduced, the time to censoring is assumed to follow a Weibull distribution.
+string indicating the time to censoring distributions, with possible values \code{weibull} for the Weibull distribution, \code{lnorm} for the log-normal distribution, \code{llogistic} for the log-logistic distribution and \code{unif} for the uniform distribution. If no distribution is introduced, the time to censoring is assumed to follow a Weibull distribution.
 }
   \item{anc.cens}{
-real number containing the ancillary parameter for the time to censoring distribution.
+real number containing the ancillary parameter for the time to censoring distribution or the maximum in case of uniform distributed time to censoring.
 }
   \item{beta0.cens}{
-real number containing the \eqn{\beta_0} parameter for the time to censoring distribution.
+real number containing the \eqn{\beta_0} parameter for the time to censoring distribution or the minimum in case of uniform distributed time to censoring.
 }
   \item{z}{
-vector with three elements that contains information relative to a random effect used in order to introduce individual heterogeneity. The first element indicates the distribution: \code{"unif"} states for a uniform distribution, \code{"gamma"} states for a gamma distribution, \code{"exp"} states for an exponential distribution, \code{"weibull"} states for a Weibull distribution and \code{"invgauss"} states for an inverse gaussian distribution. The second and third elements indicates the minimum and maximum in the case of a uniform distribution (both must be positive) and the parameters in the case of the rest of distributions. Notice that that just one parameter is needed in the case of exponential distribution. Its default value is \code{NA}, indicating that no individual heterogeneity is introduced.
+vector with three elements that contains information relative to a random effect used in order to introduce individual heterogeneity. The first element indicates the distribution: \code{"unif"} states for a uniform distribution, \code{"gamma"} states for a gamma distribution, \code{"exp"} states for an exponential distribution, \code{"weibull"} states for a Weibull distribution and \code{"invgauss"} states for an inverse gaussian distribution. The second and third elements indicates the minimum and maximum in the case of a uniform distribution (both must be positive) and the parameters in the case of the rest of distributions. Notice that that just one parameter is needed in the case of exponential distribution. Its default value is \code{NULL}, indicating that no individual heterogeneity is introduced.
 }
   \item{beta}{
 list of elements indicating the effect of the corresponding covariate. The number of vectors in \code{beta} must match the number of covariates. Its default value is NA, indicating that no covariates are included.
@@ -64,7 +64,7 @@ Kelly PJ, Lim LL. Survival analysis for recurrent event data: an application to 
 
 Bender R, Augustin T, Blettner M. Generating survival times to simulate Cox proportional hazards models. Stat Med 2005 Jun 15;\bold{24}(11):1713-1723.
 
-Moriña D, Navarro A. The R package survsim for the simulation of simple and complex survival data. Journal of Statistical Software 2014 Jul; \bold{59}(2):1-21.
+Moriña D, Navarro A. The R package survsim for the simulation of simple and complex survival data. Journal of Statistical Software 2014 Jul; \bold{59}(2):1-20.
 
 }
 
@@ -84,7 +84,7 @@ David Moriña, Centre for Research in Environmental Epidemiology (CREAL) and Alb
 
 sim.data <- simple.surv.sim(n=1000, foltime=3600, dist.ev=c('llogistic'),
 anc.ev=c(0.69978200185280),beta0.ev=c(5.84298525742252),,anc.cens=1.17783687569519,
-beta0.cens=7.39773677281100,z=c("unif", 0.8,1.2), beta=list(c(-0.4),
+beta0.cens=7.39773677281100,z=list(c("unif", 0.8, 1.2)), beta=list(c(-0.4),
 c(0)), x=list(c("bern", 0.5), c("unif", 0.7, 1.3)))
 
 summary(sim.data)

@@ -2,7 +2,7 @@ print.summary.crisk.data.sim <-
 function(x, ...)
 {
     attr(x,"class") <- "data.frame"
-    nn <- c("", "Number of subjects at risk", "Number of events", "Mean episodes per subject", "Density of incidence")
+    nn <- c("", "Number of subjects at risk", "Number of events", "Density of incidence")
     for (i in 2:length(x))
     {
       cat("\n")

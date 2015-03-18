@@ -14,7 +14,7 @@ In a recurrent data context, each subject can present different number of episod
 }
 \usage{
 rec.ev.sim(n, foltime, dist.ev, anc.ev, beta0.ev, dist.cens=rep("weibull",
-length(beta0.cens)), anc.cens, beta0.cens, z=NA, beta=NA, x=NA, lambda=NA, 
+length(beta0.cens)), anc.cens, beta0.cens, z=NULL, beta=NA, x=NA, lambda=NA, 
 max.ep=Inf, priskb=0, max.old=0)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -35,18 +35,17 @@ vector of arbitrary size of real components containing the ancillary parameters 
 vector of arbitrary size of real components containing the \eqn{\beta_0} parameters for the time to event distributions.
 }
   \item{dist.cens}{
-vector of arbitrary size indicating the time to censoring distributions, with possible values \code{weibull} for the Weibull distribution, \code{lnorm} for the log-normal distribution and \code{llogistic} for the log-logistic distribution. If no distribution are introduced, the time to censoring is assumed to follow as many different Weibull distributions as different parameters are introduced in \code{beta0.cens}.
+string indicating the time to censoring distributions, with possible values \code{weibull} for the Weibull distribution, \code{lnorm} for the log-normal distribution, \code{llogistic} for the log-logistic distribution and \code{unif} for the uniform distribution. If no distribution is introduced, the time to censoring is assumed to follow a Weibull distribution.
 }
   \item{anc.cens}{
-vector of arbitrary size of real components containing the ancillary parameters for the time to censoring distributions.
+real number containing the ancillary parameter for the time to censoring distribution or the maximum in case of uniform distributed time to censoring.
 }
   \item{beta0.cens}{
-vector of arbitrary size of real components containing the \eqn{\beta_0} parameters for the time to censoring distributions.
+real number containing the \eqn{\beta_0} parameter for the time to censoring distribution or the minimum in case of uniform distributed time to censoring.
 }
   \item{z}{
-vector with three elements that contains information relative to a random effect used in order to introduce individual heterogeneity. The first element indicates the distribution: \code{"unif"} states for a uniform distribution, \code{"gamma"} states for a gamma distribution, \code{"exp"} states for an exponential distribution, \code{"weibull"} states for a Weibull distribution and \code{"invgauss"} states for an inverse gaussian distribution. The second and third elements indicates the minimum and maximum in the case of a uniform distribution (both must be positive) and the parameters in the case of the rest of distributions. Note that just one parameter is needed in the case of exponential distribution. Its default value is \code{NA}, indicating that no individual heterogeneity is introduced.
-}
-  \item{beta}{
+list of vectors with three elements containing information relative to a random effect used in order to introduce individual heterogeneity. Each vector in the list refers to a possible competing risk, so the number of vectors must be equal to \code{nsit} or equal to 1 if the same random effect will be used for all the causes. The first element indicates the distribution: \code{"unif"} states for a uniform distribution, \code{"gamma"} states for a gamma distribution, \code{"exp"} states for an exponential distribution, \code{"weibull"} states for a Weibull distribution and \code{"invgauss"} states for an inverse gaussian distribution. The second and third elements indicates the minimum and maximum in the case of a uniform distribution (both must be positive) and the parameters in the case of the rest of distributions. Note that just one parameter is needed in the case of exponential distribution. Its default value is \code{NULL}, indicating that no individual heterogeneity is introduced. 
+}  \item{beta}{
 list of vectors indicating the effect of the corresponding covariate. The number of vectors in \code{beta} must match the number of covariates, and the length of each vector must match the number of events considered. Its default value is NA, indicating that no covariates are included.
 }
   \item{x}{
@@ -97,7 +96,7 @@ Reis RJ, Utzet M, La Rocca PF, Nedel FB, Martin M, Navarro A. Previous sick leav
 
 Navarro A, Moriña D, Reis R, Nedel FB, Martin M, Alvarado S. Hazard functions to describe patterns of new and recurrent sick leave episodes for different diagnoses. Scand J Work Environ Health 2012 Jan 27.
 
-Moriña D, Navarro A. The R package survsim for the simulation of simple and complex survival data. Journal of Statistical Software 2014 Jul; \bold{59}(2):1-21.
+Moriña D, Navarro A. The R package survsim for the simulation of simple and complex survival data. Journal of Statistical Software 2014 Jul; \bold{59}(2):1-20.
 
 }
 
@@ -111,12 +110,13 @@ David Moriña, Centre for Research in Environmental Epidemiology (CREAL) and Alb
 \examples{
 ### A cohort with 500 subjects, with a maximum follow-up time of 1825 days and 
 ### just a covariate, following a Bernoulli distribution, and a corresponding 
-### beta of -0.4, -0.5, -0.6 and -0.7 for each episode.
+### beta of -0.4, -0.5, -0.6 and -0.7 for each episode. Note that random effect is
+### the same for all events.
 
 sim.data <- rec.ev.sim(n=500, foltime=1825, dist.ev=c('lnorm','llogistic', 
 'weibull','weibull'),anc.ev=c(1.498, 0.924, 0.923, 1.051),beta0.ev=c(7.195, 
 6.583, 6.678, 6.430),,anc.cens=c(1.272, 1.218, 1.341, 1.484),
-beta0.cens=c(7.315, 6.975, 6.712, 6.399), z=c("unif", 0.8,1.2), 
+beta0.cens=c(7.315, 6.975, 6.712, 6.399), z=list(c("unif", 0.8,1.2)), 
 beta=list(c(-0.4,-0.5,-0.6,-0.7)), x=list(c("bern", 0.5)),
 lambda=c(2.18,2.33,2.40,3.46), priskb=0.5, max.old=730)
 

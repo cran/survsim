@@ -1,17 +1,36 @@
 simple.surv.sim <-
-function(n, foltime, dist.ev, anc.ev, beta0.ev, dist.cens="weibull", anc.cens, beta0.cens, z=NA, beta=NA, x=NA)
+function(n, foltime, dist.ev, anc.ev, beta0.ev, dist.cens="weibull", anc.cens, beta0.cens, z=NULL, beta=NA, x=NA)
   {
     # Arguments check
     if (length(anc.ev) != length(beta0.ev)) stop("Wrong number of parameters")
     if (length(anc.cens) != length(beta0.cens) || length(anc.cens) != 1) stop("Wrong number of parameters")
     if (length(anc.ev) != length(dist.ev)) stop("Wrong number of parameters")
-    if (!is.na(z) && length(z) != 3 && z[1] != "exp") stop("Wrong numbers of elements in z")
-    if (!is.na(z) && length(z) != 2 && z[1] == "exp") stop("Wrong numbers of elements in z")
-    if (!is.na(z) && z[1] == "unif" && as.numeric(z[3]) <= as.numeric(z[2])) stop("Wrong specification of z")
-    if (!is.na(z) && z[1] == "unif" && as.numeric(z[2]) < 0) stop("Wrong specification of z")
     if (!is.na(x) && is.na(beta)) stop("Wrong specification of covariables")
     if (is.na(x) && !is.na(beta)) stop("Wrong specification of covariables")
     if (length(beta0.ev) != 1) stop ("Wrong number of distributions or events")
+    if (!is.null(z) && length(z) != 1) stop("Wrong numbers of elements in z")
+    if (!is.null(z) && !all(lapply(z, function(x) x[1]) %in% c("unif","weibull","invgauss", "gamma","exp"))) 
+      stop("Wrong specification of z")
+    if (!is.null(z) && any(lapply(z, function(x) length(x)) != 3))
+    {
+      if(any(lapply(z[lapply(z, function(x) length(x)) != 3], function(x) length(x)) != 2)) stop("Wrong specification of z")
+      if(any(lapply(z[lapply(z, function(x) length(x)) != 3], function(x) length(x)) == 2))
+      {
+        for (i in 1:length(z[lapply(z, function(x) length(x)) == 2]))
+        {
+          if (z[lapply(z, function(x) length(x)) != 3][[i]][1] != "exp") stop("Wrong specification of z")
+        }
+      }
+    }
+    if(!is.null(z) && any(lapply(z, function(x) x[1]) == "unif"))
+    {
+      for (i in 1:length(z[lapply(z, function(x) x[1]) == "unif"]))
+      {
+        if (as.numeric(z[lapply(z, function(x) x[1]) == "unif"][[i]][2])-as.numeric(z[lapply(z, function(x) x[1]) == "unif"][[i]][3]) >= 0) 
+          stop("Wrong specification of z")
+        if (as.numeric(z[lapply(z, function(x) x[1]) == "unif"][[i]][2]) < 0) stop("Wrong specification of z")
+      }
+    }
     
     sim.data <- list()
     eff      <- vector()

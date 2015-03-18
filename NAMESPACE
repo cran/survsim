@@ -1,8 +1,16 @@
-# Default NAMESPACE created by R
 # Remove the previous line if you edit this file
 
 # Export all names
 exportPattern(".")
+
+S3method(print, summary.crisk.data.sim)
+S3method(print, summary.mult.ev.data.sim)
+S3method(print, summary.rec.ev.data.sim)
+S3method(print, summary.simple.surv.sim)
+S3method(summary, crisk.data.sim)
+S3method(summary, mult.ev.data.sim)
+S3method(summary, rec.ev.data.sim)
+S3method(summary, simple.surv.sim)
 
 # Import all packages listed as Imports or Depends
 import(

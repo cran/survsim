@@ -20,15 +20,15 @@
 \description{Internal survsim functions}
 \usage{
 rtpois(N, lambda)
-simple.ev.sim(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NA, beta=0, eff=0,
+simple.ev.sim(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NULL, beta=0, eff=0,
                   dist.ev, dist.cens, i)
-crisk.ncens.sim(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NA, beta=0, eff=0,
+crisk.ncens.sim(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NULL, beta=0, eff=0,
                   dist.ev, dist.cens, i, nsit)
-mult.ev.ncens.sim(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NA, beta=0, eff=0,
+mult.ev.ncens.sim(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NULL, beta=0, eff=0,
                   dist.ev, dist.cens, i, nsit)
-rec.ev.cens.sim(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NA, beta=0, eff=0,
+rec.ev.cens.sim(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NULL, beta=0, eff=0,
                 lambda=NA, dist.ev, dist.cens, max.ep=Inf, un.cens, i, max.time)
-rec.ev.ncens.sim(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NA, beta=0, eff=0, 
+rec.ev.ncens.sim(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NULL, beta=0, eff=0, 
                  lambda=NA, dist.ev, dist.cens, max.ep=Inf, un.ncens, i, max.time)
 \method{summary}{simple.surv.sim}(object, ...)
 \method{summary}{mult.ev.data.sim}(object, ...)

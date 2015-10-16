@@ -1,5 +1,3 @@
-# Remove the previous line if you edit this file
-
 # Export all names
 exportPattern(".")
 
@@ -16,3 +14,9 @@ S3method(summary, simple.surv.sim)
 import(
   eha, statmod
 )
+
+importFrom("stats", "dlnorm", "dlogis", "dpois", "dnorm", "pnorm", 
+           "dweibull", "integrate", "median", "na.omit", "qpois", 
+           "rbinom", "rgamma", "rlnorm", "rlogis", "rmultinom", 
+           "rnorm", "runif", "rweibull", "uniroot")
+             

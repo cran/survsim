@@ -6,7 +6,7 @@
 Generate a cohort with single-event survival times
 }
 \description{
-Simulation of cohorts in a context of standard survival analysis including several covariates, individual heterogeneity and periods at risk prior and after the start of follow-up. 
+Simulation of cohorts in a context of standard survival analysis including several covariates and individual heterogeneity. 
 }
 \usage{
 simple.surv.sim(n, foltime, dist.ev, anc.ev, beta0.ev, dist.cens="weibull", 
@@ -51,7 +51,7 @@ list of vectors indicating the distribution and parameters of any covariate that
 }
 
 \value{
-An object of class \code{mult.ev.data.sim}. It is a data frame containing the events suffered by the corresponding subjects. The columns of this data frame are detailed below
+An object of class \code{simple.surv.sim}. It is a data frame containing the events suffered by the corresponding subjects. The columns of this data frame are detailed below
 \item{nid }{an integer number that identifies the subject.}
 \item{status }{logical value indicating if the corresponding event has been suffered or not.}
 \item{start }{time at which the follow-up time begins for each event.}

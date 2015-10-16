@@ -10,6 +10,8 @@ crisk.ncens.sim <-
   time   <- NA
   pro    <- vector()
   cause  <- NA
+  a.ev   <- vector()
+  b.ev   <- vector()
   a.cens <- NA
   b.cens <- NA
   obs[1] <- 1
@@ -20,29 +22,29 @@ crisk.ncens.sim <-
   
   if (is.null(z))
   {
-    for (i in 1:nsit)
+    for (j in 1:nsit)
     {
-      az1[i] <- 1
+      az1[j] <- 1
     }
   }else{
-    for (i in 1:length(z))
+    for (j in 1:length(z))
     {
-      if (!is.na(z[[i]][1]) && z[[i]][1] == "gamma") 
-        az1[i] <- rgamma(1, as.numeric(z[[i]][2]), as.numeric(z[[i]][3]))
-      if (!is.na(z[[i]][1]) && z[[i]][1] == "exp") 
-        az1[i] <- rgamma(1, 1, as.numeric(z[[i]][2]))
-      if (!is.na(z[[i]][1]) && z[[i]][1] == "weibull") 
-        az1[i] <- rweibull(1, as.numeric(z[[i]][2]), as.numeric(z[[i]][3]))
-      if (!is.na(z[[i]][1]) && z[[i]][1] == "unif") 
-        az1[i] <- runif(1, as.numeric(z[[i]][2]), as.numeric(z[[i]][3]))
-      if (!is.na(z[[i]][1]) && z[[i]][1] == "invgauss") 
-        az1[i] <- rinvgauss(1, as.numeric(z[[i]][2]), as.numeric(z[[i]][3]))
+      if (!is.na(z[[j]][1]) && z[[j]][1] == "gamma") 
+        az1[j] <- rgamma(1, as.numeric(z[[j]][2]), as.numeric(z[[j]][3]))
+      if (!is.na(z[[j]][1]) && z[[j]][1] == "exp") 
+        az1[j] <- rgamma(1, 1, as.numeric(z[[j]][2]))
+      if (!is.na(z[[j]][1]) && z[[j]][1] == "weibull") 
+        az1[j] <- rweibull(1, as.numeric(z[[j]][2]), as.numeric(z[[j]][3]))
+      if (!is.na(z[[j]][1]) && z[[j]][1] == "unif") 
+        az1[j] <- runif(1, as.numeric(z[[j]][2]), as.numeric(z[[j]][3]))
+      if (!is.na(z[[j]][1]) && z[[j]][1] == "invgauss") 
+        az1[j] <- rinvgauss(1, as.numeric(z[[j]][2]), as.numeric(z[[j]][3]))
     }
     if (length(z) == 1)
     {
-      for (i in 2:nsit)
+      for (j in 2:nsit)
       {
-        az1[i] <- az1[1]
+        az1[j] <- az1[j]
       }
     }
   }
@@ -67,56 +69,79 @@ crisk.ncens.sim <-
     }
     }
   }
-  suma <- 0
-  if (!is.na(beta[1])) suma <- sum(sapply(beta, "[", seq(1,nsit,1)) * eff)
+  suma <- vector()
+  for (m2 in 1:nsit)
+  {
+    suma[m2] <- 0
+    for (m1 in 1:length(beta))
+    {
+      suma[m2] <- suma[m2] + beta[[m1]][m2]*eff[m1]
+    }
+  }
+  if (all(is.na(suma))) suma <- rep(0, nsit)
   # Cause-specific hazards
   for (k in 1:nsit)
   {
     if (dist.ev[k] == "llogistic") {
-    cshaz[[k]] <- function(t) {return(az1[k]*exp(dlogis(t, beta0.ev[k] + suma, anc.ev[k])))}
+      a.ev[k] <- 1/exp(beta0.ev[k] + suma[k])
+      b.ev[k] <- anc.ev[k]
+      cshaz[[k]] <- function(t, r) {
+        par1 <- eval(parse(text="a.ev[r]"))
+        par2 <- eval(parse(text="b.ev[r]"))
+        z    <- eval(parse(text="az1[r]"))
+        return(z*(par1*par2*(t^(par2-1)))/(1+par1*(t^par2)))}
     }
     else {
       if (dist.ev[k] == "weibull") {
-        a.ev <- anc.ev
-        b.ev <- (1/exp(-anc.ev * (beta0.ev+suma)))^(1/anc.ev)
-        cshaz[[k]] <- function(t) {return(az1[k]*dweibull(t, a.ev[k], b.ev[k]))}
+        a.ev[k] <- beta0.ev[k] + suma[k]
+        b.ev[k] <- anc.ev[k]
+        cshaz[[k]] <- function(t, r) {
+          par1 <- eval(parse(text="a.ev[r]"))
+          par2 <- eval(parse(text="b.ev[r]"))
+          z    <- eval(parse(text="az1[r]"))
+          return(z*(((1/par2)/exp(par1))^(1/par2))*t^((1/par2)-1))}
       }
       else {
         if (dist.ev[k] == "lnorm") {
-          cshaz[[k]] <- function(t) {return(az1[k]*dlnorm(t, beta0.ev[k]+suma, anc.ev[k]))}
+          a.ev[k] <- beta0.ev[k] + suma[k]
+          b.ev[k] <- anc.ev[k]
+          cshaz[[k]] <- function(t, r) {
+            par1 <- eval(parse(text="a.ev[r]"))
+            par2 <- eval(parse(text="b.ev[r]"))
+            z    <- eval(parse(text="az1[r]"))
+            return(z*(dnorm((log(t)-par1)/par2)/(par2*t*(1-pnorm((log(t)-par1)/par2)))))}
         }#if
       }#if
     }#if
   }#for
   
   A <- function(t,y){ #Cumulative all-cause hazard A
-    suma <- 0
+    res <- 0
     for (k in 1:length(cshaz))
     {
-      res <- suma + integrate(cshaz[[k]],lower=0,upper=t,subdivisions=1000)$value
+      res <- res + integrate(cshaz[[k]], lower=0.001, upper=t, r=k, subdivisions=1000)$value
     }
     res <- res + y
     return(res[1])
   }
   u     <- runif(1)
   iters <- 0
-  while (A(0.0001,log(1-u))*A(foltime,log(1-u))>0 & iters < 1000)
+  while (A(0.001, log(1-u))*A(foltime, log(1-u)) > 0 & iters < 1000)
   {
     u     <- runif(1)
     iters <- iters + 1
   }
   if (iters >= 1000) stop("Error: Values at endpoints not of opposite sign. \n")
-  res <- uniroot(A, c(0.0001,foltime),tol=0.0001,y=log(1-u))
-  tb  <- res$root
-  
+  tb <- uniroot(A, c(0, foltime), tol=0.0001, y=log(1-u))$root
+
   sumprob <- 0
   for (k in 1:length(cshaz))
   {
-    sumprob <- sumprob + cshaz[[k]](tb) 
+    sumprob <- sumprob + cshaz[[k]](tb, k) 
   }
   for (k in 1:length(cshaz))
   {
-      pro[k] <- cshaz[[k]](tb) / sumprob
+      pro[k] <- cshaz[[k]](tb, k) / sumprob
   }
   cause1 <- rmultinom(1, 1, prob = pro)
   for (k in 1:length(cshaz))

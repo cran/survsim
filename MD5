@@ -1,4 +1,4 @@
-9bc7c4180abf27e9e5ec6d68164b01f3 *DESCRIPTION
+4d99f35c5d9fc0d65df11c3b854c7db4 *DESCRIPTION
 d7831bff93e746c49e246d5796874e69 *NAMESPACE
 318d56ef16b1fd2eda72c3cc59ef8f45 *R/accum.R
 ea83b1323fc9bdef661dd2dfe4a74fe8 *R/crisk.ncens.sim.R
@@ -26,4 +26,4 @@ a1edaf9a47d5a5163ec317e7155d34d5 *man/crisk.sim.Rd
 f4fd56ac171d769f73a2714d9e4595fd *man/rec.ev.sim.Rd
 def172bcea6df4fe9afe4d22951a9509 *man/simple.surv.sim.Rd
 4da25f6a6c3b0590eef5e910c9be9608 *man/survsim-internal.Rd
-a54b3390e3a4ae5239e4f66fbae3f81f *man/survsim-package.Rd
+0c02a7fa97db8b5f30095964e2e7e97b *man/survsim-package.Rd

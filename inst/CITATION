@@ -9,7 +9,7 @@ citEntry(entry = "Article",
   volume       = "59",
   number       = "2",
   pages        = "1--20",
-  url          = "http://www.jstatsoft.org/v59/i02/",
+  url          = "https://www.jstatsoft.org/v59/i02/",
 
   textVersion  =
   paste("David Moriña, Albert Navarro (2014).",

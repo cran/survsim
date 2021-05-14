@@ -108,10 +108,10 @@ function(foltime, anc.ev, beta0.ev, anc.cens, beta0.cens, z=NULL, beta=0, eff=0,
       time[j] <- tb[j]
     }
     
-    if (it[j] == 1 && !is.na(lambda)) long[j] <-  rtpois(1, lambda[k.ev])
+    if (it[j] == 1 && !is.na(lambda[k.ev])) long[j] <-  rtpois(1, lambda[k.ev])
     
-    if (j != 1 && !is.na(lambda)) start[j] <- stop[j-1] + long[j-1]
-    if (j != 1 && is.na(lambda))  start[j] <- stop[j-1]
+    if (j != 1 && !is.na(lambda[k.ev])) start[j] <- stop[j-1] + long[j-1]
+    if (j != 1 && is.na(lambda[k.ev]))  start[j] <- stop[j-1]
     stop[j]  <- start[j] + time[j]
     
     if (start[j] < max.time && stop[j] > max.time)

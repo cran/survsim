@@ -125,35 +125,38 @@ crisk.ncens.sim <-
     return(res[1])
   }
   u     <- runif(1)
-  iters <- 0
-  while (A(0.001, log(1-u))*A(foltime, log(1-u)) > 0 & iters < 1000)
-  {
-    u     <- runif(1)
-    iters <- iters + 1
+  if (A(0.001, log(1-u))*A(foltime, log(1-u)) > 0) {
+    tb <- foltime; cause <- 0
+  }else{
+    iters <- 0
+    while (A(0.001, log(1-u))*A(foltime, log(1-u)) > 0 & iters < 1000)
+    {
+      u     <- runif(1)
+      iters <- iters + 1
+    }
+    if (iters >= 1000) stop("Error: Values at endpoints not of opposite sign. \n")
+    tb <- uniroot(A, c(0, foltime), tol=0.0001, y=log(1-u))$root
   }
-  if (iters >= 1000) stop("Error: Values at endpoints not of opposite sign. \n")
-  tb <- uniroot(A, c(0, foltime), tol=0.0001, y=log(1-u))$root
-
-  sumprob <- 0
-  for (k in 1:length(cshaz))
-  {
-    sumprob <- sumprob + cshaz[[k]](tb, k) 
-  }
-  for (k in 1:length(cshaz))
-  {
+    sumprob <- 0
+    for (k in 1:length(cshaz))
+    {
+      sumprob <- sumprob + cshaz[[k]](tb, k) 
+    }
+    for (k in 1:length(cshaz))
+    {
       pro[k] <- cshaz[[k]](tb, k) / sumprob
-  }
-  cause1 <- rmultinom(1, 1, prob = pro)
-  for (k in 1:length(cshaz))
-  {
-    if (cause1[k] == 1) cause <- k
-  }
-  az <- az1[k]
-  nid <- i
-  start <- 0
-  it <- 0
-  time <- tc
-  if (tb < tc) {
+    }
+    cause1 <- rmultinom(1, 1, prob = pro)
+    for (k in 1:length(cshaz))
+    {
+      if (cause1[k] == 1) cause <- k
+    }
+    az <- az1[k]
+    nid <- i
+    start <- 0
+    it <- 0
+    time <- tc
+    if (tb < tc) {
       it <- 1
       time <- tb
     }

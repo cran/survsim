@@ -13,7 +13,7 @@ Simulation of cohorts in a context of simple and complex survival analysis, mult
          Distribution \tab Survival function   \tab Density function \tab Parametrization\cr
          Weibull \tab \eqn{exp(- \lambda t^p)} \tab \eqn{\lambda pt^{p-1}exp(- \lambda t^p)} \tab \eqn{\lambda = exp(-p \beta_0)}\cr
          Log-normal \tab \eqn{1- \Theta((log(t)- \mu)/ \sigma)} \tab \eqn{(1/(t \sigma \sqrt{2 \pi})) exp((-1/(2 \sigma^2))(log(t) - \mu)^2)} \tab \eqn{\mu = \beta_0}\cr
-         Log-logistic \tab \eqn{1/(1+(\lambda t)^{1/ \gamma}}) \tab \eqn{\lambda^{1/ \gamma}t^{1/ (\gamma - 1)}/ (\gamma (1 + (\lambda t)^{1/ \gamma})^2)} \tab \eqn{\lambda = exp(- \beta_0)}\cr
+         Log-logistic \tab \eqn{1/(1+(\lambda t)^{1/ \gamma}}) \tab \eqn{\lambda^{1/ \gamma}t^{(1/ \gamma) - 1}/ (\gamma (1 + (\lambda t)^{1/ \gamma})^2)} \tab \eqn{\lambda = exp(- \beta_0)}\cr
        }
 \tabular{cc}{
          Distribution \tab Time\cr
@@ -44,17 +44,17 @@ Therefore, \eqn{t_0} represents the initial point of the episode, \eqn{y_i} the 
 \tabular{ll}{
 Package: \tab survsim\cr
 Type: \tab Package\cr
-Version: \tab 1.1.5\cr
-Date: \tab 2018-05-17\cr
+Version: \tab 1.1.6\cr
+Date: \tab 2021-05-12\cr
 License: \tab GPL version 2 or newer\cr
 LazyLoad: \tab yes\cr
 }
 The package provide a tool for simulation of cohorts in a simple single-event context through the function \code{\link{simple.surv.sim}}, in a recurrent event context with the function \code{\link{rec.ev.sim}}, in a multiple event context with the function \code{\link{mult.ev.sim}} and in a competing risks context with the function \code{\link{crisk.sim}}, and it also allows the user to generate aggregated data from the simulated cohort, by means of the function \code{\link{accum}}.
 }
 \author{
-David Moriña, Centre for Research in Environmental Epidemiology (CREAL) and Albert Navarro, Universitat Autònoma de Barcelona
+David Moriña, (Universitat de Barcelona) and Albert Navarro (Universitat Autònoma de Barcelona)
 
-Maintainer: David Moriña <david.morina@uab.cat>
+Maintainer: David Moriña Soler <dmorina@ub.edu>
 }
 
 \references{

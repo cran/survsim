@@ -44,8 +44,8 @@ Therefore, \eqn{t_0} represents the initial point of the episode, \eqn{y_i} the 
 \tabular{ll}{
 Package: \tab survsim\cr
 Type: \tab Package\cr
-Version: \tab 1.1.6\cr
-Date: \tab 2021-05-12\cr
+Version: \tab 1.1.7\cr
+Date: \tab 2021-10-06\cr
 License: \tab GPL version 2 or newer\cr
 LazyLoad: \tab yes\cr
 }

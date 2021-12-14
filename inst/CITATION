@@ -15,6 +15,22 @@ citEntry(entry = "Article",
   paste("David Moriña, Albert Navarro (2014).",
         "The R Package survsim for the Simulation of Simple and Complex Survival Data.",
         "Journal of Statistical Software, 59(2), 1-20.",
-        "DOI 10.18637/jss.v059.i02.")
-)
+        "DOI 10.18637/jss.v059.i02."))
 
+citEntry(entry = "Article",
+  title        = "Competing risks simulation with the {survsim} {R} package",
+  author       = personList(as.person("David Mori{\\~n}a"),
+                   as.person("Albert Navarro")),
+  journal      = "Communications in Statistics - Simulation and Computation",
+  year         = "2017",
+  volume       = "46",
+  number       = "7",
+  pages        = "5712--5722",
+  doi          = "10.1080/03610918.2016.1175621",
+
+  textVersion  =
+  paste("David Moriña, Albert Navarro (2017).",
+        "Competing risks simulation with the survsim R package.",
+        "Communications in Statistics - Simulation and Computation, 46(7), 5712-5722.",
+        "DOI doi:10.1080/03610918.2016.1175621.")
+)

@@ -75,7 +75,7 @@ Beyersmann J, Latouche A, Buchholz A, Schumacher M. Simulating competing risks d
 }
 
 \author{
-David Moriña, Centre for Research in Environmental Epidemiology (CREAL) and Albert Navarro, Universitat Autònoma de Barcelona
+David Moriña, Universitat de Barcelona and Albert Navarro, Universitat Autònoma de Barcelona
 }
 
 \seealso{

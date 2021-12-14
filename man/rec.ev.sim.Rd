@@ -101,7 +101,7 @@ Moriña D, Navarro A. The R package survsim for the simulation of simple and com
 }
 
 \author{
-David Moriña, Centre for Research in Environmental Epidemiology (CREAL) and Albert Navarro, Universitat Autònoma de Barcelona
+David Moriña, Universitat de Barcelona and Albert Navarro, Universitat Autònoma de Barcelona
 }
 
 \seealso{

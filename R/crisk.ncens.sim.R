@@ -6,7 +6,7 @@ crisk.ncens.sim <-
   start  <- NA
   stop   <- NA
   obs    <- NA
-  it     <- NA
+  it     <- 0
   time   <- NA
   pro    <- vector()
   cause  <- NA
@@ -99,7 +99,8 @@ crisk.ncens.sim <-
           par1 <- eval(parse(text="a.ev[r]"))
           par2 <- eval(parse(text="b.ev[r]"))
           z    <- eval(parse(text="az1[r]"))
-          return(z*(((1/par2)/exp(par1))^(1/par2))*t^((1/par2)-1))}
+          return(z * ((1/par2)/((exp(par1))^(1/par2)))*
+                 t^((1/par2) - 1))}
       }
       else {
         if (dist.ev[k] == "lnorm") {
@@ -119,7 +120,8 @@ crisk.ncens.sim <-
     res <- 0
     for (k in 1:length(cshaz))
     {
-      res <- res + integrate(cshaz[[k]], lower=0.001, upper=t, r=k, subdivisions=1000)$value
+      res <- res + integrate(cshaz[[k]], lower = 0.00001,
+                             upper = t, r = k, subdivisions = 2000)$value
     }
     res <- res + y
     return(res[1])
@@ -127,55 +129,36 @@ crisk.ncens.sim <-
   u     <- runif(1)
   if (A(0.001, log(1-u))*A(foltime, log(1-u)) > 0) {
     tb <- foltime; cause <- 0
-  }else{
-    iters <- 0
-    while (A(0.001, log(1-u))*A(foltime, log(1-u)) > 0 & iters < 1000)
-    {
-      u     <- runif(1)
-      iters <- iters + 1
-    }
-    if (iters >= 1000) stop("Error: Values at endpoints not of opposite sign. \n")
-    tb <- uniroot(A, c(0, foltime), tol=0.0001, y=log(1-u))$root
-  }
-    sumprob <- 0
-    for (k in 1:length(cshaz))
-    {
-      sumprob <- sumprob + cshaz[[k]](tb, k) 
-    }
-    for (k in 1:length(cshaz))
-    {
-      pro[k] <- cshaz[[k]](tb, k) / sumprob
-    }
-    cause1 <- rmultinom(1, 1, prob = pro)
-    for (k in 1:length(cshaz))
-    {
-      if (cause1[k] == 1) cause <- k
+    }else{
+      tb <- uniroot(A, c(0, foltime), tol = 1e-05, y = log(1 - u))$root
+      it <- 1
+      sumprob <- 0
+      for (k in 1:length(cshaz))
+      {
+        sumprob <- sumprob + cshaz[[k]](tb, k) 
+      }
+      for (k in 1:length(cshaz))
+      {
+        pro[k] <- cshaz[[k]](tb, k) / sumprob
+      }
+      cause1 <- rmultinom(1, 1, prob = pro)
+      for (k in 1:length(cshaz))
+      {
+        if (cause1[k] == 1) cause <- k
+      }
     }
     az <- az1[k]
     nid <- i
-    start <- 0
-    it <- 0
-    time <- tc
-    if (tb < tc) {
-      it <- 1
-      time <- tb
-    }
-    stop <- time
-    if (start < foltime && stop > foltime) {
-      stop <- foltime
-      time <- foltime
+    if (tc < tb) {
       it <- 0
-    }
-    if (start < 0 && stop > 0) {
-      start <- 0
-      time <- stop
+      tb <- tc
+      cause <- 0
     }
     
-  sim.ind <- data.frame(nid = nid, cause = cause, time = time, status = it, 
+  sim.ind <- data.frame(nid = nid, cause = cause, time = tb, status = it, 
                         start = start, stop = stop, z = az)
   for (k in 1:length(eff)) {
     sim.ind <- cbind(sim.ind, x = eff[k])
   }
-  sim.ind <- subset(sim.ind, start < foltime & stop > 0)
   return(sim.ind)
 }
